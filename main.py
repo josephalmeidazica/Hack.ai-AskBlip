@@ -14,7 +14,7 @@ def execPrompt(prompt,key):
     data = {
     "deployment": "text-davinci-003",
     "prompt": prompt,
-    "max_tokens": 500,
+    "max_tokens": 300,
     "temperature": 0.7,
     "top_p": 1,
     "logit_bias": {},
@@ -37,16 +37,20 @@ st.title('AskBlip')
 
 key = st.text_input('Api Key:')
 
-txt = st.text_area('Resposta:',placeholder='Insira aqui o conteúdo da resposta')
+empresa = st.text_input('Nome da Empresa:')
+
+pergunta = st.text_area('Pergunta:',placeholder='Insira aqui o conteúdo da pergunta')
+resposta = st.text_area('Resposta:',placeholder='Insira aqui o conteúdo da resposta')
 
 
-if st.button('Avaliar'):
-    r = execPrompt('prompt avaliacao' + txt,key)
-    st.text_area('Avaliação:',value=txt, disabled=True)
 
 if st.button('Reescrever'):
-    r = execPrompt('prompt reescrita' + txt,key)
+    r = execPrompt("melhore a seguinte resposta, considerando que você é um grande analista e redator de textos que trabalha na empresa " + empresa + " e é responsável por garantir que os clientes dessa empresa tenham suas dúvidas esclarecidas, então é lhe apresentado uma FAQ : " + pergunta + " R:" + resposta + ".",key)
     st.text_area('Reescrita:',value=r, disabled=True)
+
+if st.button('Avaliar'):
+    r = execPrompt("avalie a seguinte pergunta e resposta, considerando que você é um grande analista e redator de textos que trabalha na empresa " + empresa + " e é responsável por garantir que os clientes dessa empresa tenham suas dúvidas esclarecidas, então é lhe apresentado uma FAQ : " +pergunta+"R:" +  resposta+ ".",key)
+    st.text_area('Avaliação:',value=r, disabled=True)
 
 
 
